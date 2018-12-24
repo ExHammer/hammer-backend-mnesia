@@ -10,6 +10,8 @@ defmodule Hammer.Backend.Mnesia do
   use GenServer
   @behaviour Hammer.Backend
 
+  alias :mnesia, as: Mnesia
+
   @default_table_name :__hammer_backend_mnesia
 
   ## Public API
@@ -19,7 +21,7 @@ defmodule Hammer.Backend.Mnesia do
   end
 
   def create_mnesia_table(table_name) do
-    :mnesia.create_table(
+    Mnesia.create_table(
       table_name,
       attributes: [:key, :bucket, :id, :count, :created, :updated]
     )
