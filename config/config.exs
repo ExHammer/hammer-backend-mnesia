@@ -28,3 +28,9 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+config :hammer,
+  backend: {Hammer.Backend.ETS,
+            [ets_table_name: :hammer_backend_ets_buckets,
+             expiry_ms: 60_000 * 60 * 2,
+             cleanup_interval_ms: 60_000 * 2]}
