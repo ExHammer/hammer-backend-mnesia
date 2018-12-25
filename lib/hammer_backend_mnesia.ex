@@ -23,7 +23,11 @@ defmodule Hammer.Backend.Mnesia do
   def create_mnesia_table(table_name) do
     Mnesia.create_table(
       table_name,
-      attributes: [:key, :bucket, :id, :count, :created, :updated]
+      type: :set,
+      attributes: [:key, :bucket, :id, :count, :created, :updated],
+      index: [:key]
+      # TODO: add ram_copies, etc,
+      #   http://erlang.org/doc/man/mnesia.html
     )
   end
 
@@ -106,7 +110,9 @@ defmodule Hammer.Backend.Mnesia do
   ## GenServer Callbacks
 
   def init(args) do
-    {:ok, %{}}
+    # TODO: add expiry, etc
+    table_name = Keyword.get(args, :table_name, @default_table_name)
+    {:ok, %{table_name: table_name}}
   end
 
   def handle_call(:stop, _from, state) do
