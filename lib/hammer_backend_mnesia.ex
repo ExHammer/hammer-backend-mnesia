@@ -21,14 +21,18 @@ defmodule Hammer.Backend.Mnesia do
   end
 
   def create_mnesia_table(table_name) do
-    Mnesia.create_table(
-      table_name,
-      type: :set,
-      attributes: [:key, :bucket, :id, :count, :created, :updated],
-      index: [:key]
-      # TODO: add ram_copies, etc,
-      #   http://erlang.org/doc/man/mnesia.html
-    )
+    # TODO: add ram_copies, etc,
+    #   http://erlang.org/doc/man/mnesia.html
+    create_result =
+      Mnesia.create_table(
+        table_name,
+        type: :set,
+        attributes: [:key, :bucket, :id, :count, :created, :updated]
+      )
+
+    Mnesia.add_table_index(table_name, :bucket)
+    Mnesia.add_table_index(table_name, :updated)
+    create_result
   end
 
   def start do
@@ -112,7 +116,30 @@ defmodule Hammer.Backend.Mnesia do
   def init(args) do
     # TODO: add expiry, etc
     table_name = Keyword.get(args, :table_name, @default_table_name)
-    {:ok, %{table_name: table_name}}
+    expiry_ms = Keyword.get(args, :expiry_ms)
+    cleanup_interval_ms = Keyword.get(args, :cleanup_interval_ms)
+
+    if !expiry_ms do
+      raise RuntimeError, "Missing required config: expiry_ms"
+    end
+
+    if !cleanup_interval_ms do
+      raise RuntimeError, "Missing required config: cleanup_interval_ms"
+    end
+
+    prune_process_key = :__hammer_backend_mnesia_prune
+
+    if !Process.whereis(prune_process_key) do
+      {:ok, {:interval, _ref}} = :timer.send_interval(cleanup_interval_ms, :prune)
+      Process.register(self(), prune_process_key)
+    end
+
+    state = %{
+      table_name: table_name,
+      expiry_ms: expiry_ms
+    }
+
+    {:ok, state}
   end
 
   def handle_call(:stop, _from, state) do
@@ -120,17 +147,60 @@ defmodule Hammer.Backend.Mnesia do
   end
 
   def handle_call({:count_hit, key, now, increment}, _from, %{} = state) do
-    result = 1
-    {:reply, result, state}
+    %{table_name: table_name} = state
+    {bucket, id} = key
+
+    t_fn = fn ->
+      case Mnesia.read(table_name, key) do
+        [] ->
+          # Insert
+          Mnesia.write({table_name, key, bucket, id, increment, now, now})
+          {:ok, increment}
+
+        [{^table_name, _, _, _, n, created, _}] ->
+          # Update
+          Mnesia.write({table_name, key, bucket, id, n + increment, created, now})
+          {:ok, n + increment}
+      end
+    end
+
+    case Mnesia.transaction(t_fn) do
+      {:atomic, result} ->
+        {:reply, result, state}
+
+      {:aborted, reason} ->
+        {:reply, {:error, reason}, state}
+    end
   end
 
   def handle_call({:get_bucket, key}, _from, %{} = state) do
-    result = 1
-    {:reply, result, state}
+    %{table_name: table_name} = state
+
+    t_fn = fn ->
+      case Mnesia.read(table_name, key) do
+        [] ->
+          {:ok, nil}
+
+        [{_, _, _, _, n, created, updated}] ->
+          {:ok, {key, n, created, updated}}
+      end
+    end
+
+    case Mnesia.transaction(t_fn) do
+      {:atomic, result} ->
+        {:reply, result, state}
+
+      {:aborted, reason} ->
+        {:reply, {:error, reason}, state}
+    end
   end
 
   def handle_call({:delete_buckets, id}, _from, %{} = state) do
     result = 1
     {:reply, result, state}
+  end
+
+  def handle_call(:prune, state) do
+    {:noreply, state}
   end
 end
