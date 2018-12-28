@@ -131,7 +131,7 @@ defmodule Hammer.Backend.Mnesia do
     prune_process_key = :__hammer_backend_mnesia_prune
 
     if !Process.whereis(prune_process_key) do
-      {:ok, {:interval, _ref}} = :timer.send_interval(cleanup_interval_ms, :prune)
+      :timer.send_interval(cleanup_interval_ms, :prune)
       Process.register(self(), prune_process_key)
     end
 
@@ -228,7 +228,7 @@ defmodule Hammer.Backend.Mnesia do
     end
   end
 
-  def handle_call(:prune, state) do
+  def handle_info(:prune, state) do
     %{table_name: table_name, expiry_ms: expiry_ms} = state
     now = Utils.timestamp()
     expire_before = now - expiry_ms

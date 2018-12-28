@@ -7,13 +7,10 @@ defmodule HammerBackendMnesiaTest do
   Hammer.Backend.Mnesia.create_mnesia_table()
 
   setup _context do
-    {:ok, pid} =
-      Hammer.Backend.Mnesia.start_link(
-        expiry_ms: 60_000,
-        cleanup_interval_ms: 60_000 * 5
-      )
+    opts = [expiry_ms: 100, cleanup_interval_ms: 50]
+    {:ok, pid} = Hammer.Backend.Mnesia.start_link(opts)
 
-    {:ok, [pid: pid]}
+    {:ok, Keyword.put(opts, :pid, pid)}
   end
 
   test "count_hit", context do
@@ -53,13 +50,13 @@ defmodule HammerBackendMnesiaTest do
     assert {:ok, 1} = Hammer.Backend.Mnesia.delete_buckets(pid, "three")
   end
 
-  # test "timeout pruning", context do
-  #   pid = context[:pid]
-  #   expiry_ms = context[:expiry_ms]
-  #   {stamp, key} = Hammer.Utils.stamp_key("one", 200_000)
-  #   assert {:ok, 1} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
-  #   assert {:ok, {{_, "one"}, 1, _, _}} = Hammer.Backend.Mnesia.get_bucket(pid, key)
-  #   :timer.sleep(expiry_ms * 2)
-  #   assert {:ok, nil} = Hammer.Backend.Mnesia.get_bucket(pid, key)
-  # end
+  test "timeout pruning", context do
+    pid = context[:pid]
+    expiry_ms = context[:expiry_ms]
+    {stamp, key} = Hammer.Utils.stamp_key("four", 200_000)
+    assert {:ok, 1} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
+    assert {:ok, {{_, "four"}, 1, _, _}} = Hammer.Backend.Mnesia.get_bucket(pid, key)
+    :timer.sleep(expiry_ms * 2)
+    assert {:ok, nil} = Hammer.Backend.Mnesia.get_bucket(pid, key)
+  end
 end
