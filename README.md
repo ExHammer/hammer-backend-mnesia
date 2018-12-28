@@ -1,6 +1,21 @@
 # Hammer.Backend.Mnesia
 
-**TODO: Add description**
+An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter.
+
+This package is under development and should not be used until an official release
+is published.
+
+
+## Todo
+
+- [ ] More options to create-table
+- [ ] Move the prune into a separate spin-off process
+- [ ] Documentation
+  - [ ] Module docs
+  - [ ] Generate docs
+  - [ ] Getting-started guide
+    - [ ] How to set up Mnesia
+
 
 ## Installation
 
@@ -18,4 +33,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/hammer_backend_mnesia](https://hexdocs.pm/hammer_backend_mnesia).
-

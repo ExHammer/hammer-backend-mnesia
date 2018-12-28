@@ -31,7 +31,7 @@ defmodule Hammer.Backend.Mnesia do
         attributes: [:key, :bucket, :id, :count, :created, :updated]
       )
 
-    Mnesia.add_table_index(table_name, :bucket)
+    Mnesia.add_table_index(table_name, :id)
     Mnesia.add_table_index(table_name, :updated)
     create_result
   end
@@ -115,7 +115,6 @@ defmodule Hammer.Backend.Mnesia do
   ## GenServer Callbacks
 
   def init(args) do
-    # TODO: add expiry, etc
     table_name = Keyword.get(args, :table_name, @default_table_name)
     expiry_ms = Keyword.get(args, :expiry_ms)
     cleanup_interval_ms = Keyword.get(args, :cleanup_interval_ms)
@@ -165,13 +164,7 @@ defmodule Hammer.Backend.Mnesia do
       end
     end
 
-    case Mnesia.transaction(t_fn) do
-      {:atomic, result} ->
-        {:reply, result, state}
-
-      {:aborted, reason} ->
-        {:reply, {:error, reason}, state}
-    end
+    run_transaction(t_fn, state)
   end
 
   def handle_call({:get_bucket, key}, _from, %{} = state) do
@@ -187,13 +180,7 @@ defmodule Hammer.Backend.Mnesia do
       end
     end
 
-    case Mnesia.transaction(t_fn) do
-      {:atomic, result} ->
-        {:reply, result, state}
-
-      {:aborted, reason} ->
-        {:reply, {:error, reason}, state}
-    end
+    run_transaction(t_fn, state)
   end
 
   def handle_call({:delete_buckets, id}, _from, %{} = state) do
@@ -219,13 +206,7 @@ defmodule Hammer.Backend.Mnesia do
       {:ok, Enum.count(keys_to_delete)}
     end
 
-    case Mnesia.transaction(t_fn) do
-      {:atomic, result} ->
-        {:reply, result, state}
-
-      {:aborted, reason} ->
-        {:reply, {:error, reason}, state}
-    end
+    run_transaction(t_fn, state)
   end
 
   def handle_info(:prune, state) do
@@ -253,5 +234,15 @@ defmodule Hammer.Backend.Mnesia do
 
     Mnesia.transaction(t_fn)
     {:noreply, state}
+  end
+
+  defp run_transaction(t_fn, state) do
+    case Mnesia.transaction(t_fn) do
+      {:atomic, result} ->
+        {:reply, result, state}
+
+      {:aborted, reason} ->
+        {:reply, {:error, reason}, state}
+    end
   end
 end
