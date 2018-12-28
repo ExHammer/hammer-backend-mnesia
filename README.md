@@ -10,6 +10,7 @@ is published.
 
 - [ ] More options to create-table
 - [ ] Move the prune into a separate spin-off process
+  - [ ] And make sure there's only one at a time?
 - [ ] Documentation
   - [ ] Module docs
   - [ ] Generate docs

@@ -232,7 +232,13 @@ defmodule Hammer.Backend.Mnesia do
       )
     end
 
-    Mnesia.transaction(t_fn)
+    Process.spawn(
+      fn ->
+        Mnesia.transaction(t_fn)
+      end,
+      []
+    )
+
     {:noreply, state}
   end
 
