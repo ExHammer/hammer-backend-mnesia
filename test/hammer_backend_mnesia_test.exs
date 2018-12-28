@@ -41,17 +41,17 @@ defmodule HammerBackendMnesiaTest do
     assert {:ok, {{_, "two"}, 6, _, _}} = Hammer.Backend.Mnesia.get_bucket(pid, key)
   end
 
-  # test "delete_buckets", context do
-  #   pid = context[:pid]
-  #   {stamp, key} = Hammer.Utils.stamp_key("three", 200_000)
-  #   # With no hits
-  #   assert {:ok, 0} = Hammer.Backend.Mnesia.delete_buckets(pid, "three")
-  #   # With three hits in same bucket
-  #   assert {:ok, 1} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
-  #   assert {:ok, 2} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
-  #   assert {:ok, 3} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
-  #   assert {:ok, 1} = Hammer.Backend.Mnesia.delete_buckets(pid, "three")
-  # end
+  test "delete_buckets", context do
+    pid = context[:pid]
+    {stamp, key} = Hammer.Utils.stamp_key("three", 200_000)
+    # With no hits
+    assert {:ok, 0} = Hammer.Backend.Mnesia.delete_buckets(pid, "three")
+    # With three hits in same bucket
+    assert {:ok, 1} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
+    assert {:ok, 2} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
+    assert {:ok, 3} = Hammer.Backend.Mnesia.count_hit(pid, key, stamp)
+    assert {:ok, 1} = Hammer.Backend.Mnesia.delete_buckets(pid, "three")
+  end
 
   # test "timeout pruning", context do
   #   pid = context[:pid]

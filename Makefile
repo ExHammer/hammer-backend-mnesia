@@ -7,11 +7,11 @@ format:
 	mix format mix.exs "lib/**/*.{ex,exs}" "test/**/*.{ex,exs}"
 
 
-test:
+test: format
 	mix test --no-start
 
 
-docs:
+docs: format
 	mix docs
 
 

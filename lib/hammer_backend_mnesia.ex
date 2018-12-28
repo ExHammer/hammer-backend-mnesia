@@ -11,6 +11,7 @@ defmodule Hammer.Backend.Mnesia do
   @behaviour Hammer.Backend
 
   alias :mnesia, as: Mnesia
+  alias Hammer.Utils
 
   @default_table_name :__hammer_backend_mnesia
 
@@ -196,11 +197,61 @@ defmodule Hammer.Backend.Mnesia do
   end
 
   def handle_call({:delete_buckets, id}, _from, %{} = state) do
-    result = 1
-    {:reply, result, state}
+    %{table_name: table_name} = state
+
+    t_fn = fn ->
+      match = {:_, :"$1", :_, :"$2", :_, :_, :_}
+      filter = [{:==, :"$2", id}]
+      project = [:"$1"]
+
+      keys_to_delete =
+        Mnesia.select(table_name, [
+          {match, filter, project}
+        ])
+
+      Enum.each(
+        keys_to_delete,
+        fn k ->
+          Mnesia.delete(table_name, k, :write)
+        end
+      )
+
+      {:ok, Enum.count(keys_to_delete)}
+    end
+
+    case Mnesia.transaction(t_fn) do
+      {:atomic, result} ->
+        {:reply, result, state}
+
+      {:aborted, reason} ->
+        {:reply, {:error, reason}, state}
+    end
   end
 
   def handle_call(:prune, state) do
+    %{table_name: table_name, expiry_ms: expiry_ms} = state
+    now = Utils.timestamp()
+    expire_before = now - expiry_ms
+
+    t_fn = fn ->
+      match = {:_, :"$1", :_, :_, :_, :_, :"$2"}
+      filter = [{:<, :"$2", expire_before}]
+      project = [:"$1"]
+
+      keys_to_delete =
+        Mnesia.select(table_name, [
+          {match, filter, project}
+        ])
+
+      Enum.each(
+        keys_to_delete,
+        fn k ->
+          Mnesia.delete(table_name, k, :write)
+        end
+      )
+    end
+
+    Mnesia.transaction(t_fn)
     {:noreply, state}
   end
 end
