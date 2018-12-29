@@ -9,7 +9,7 @@ release is published.
 
 ## Todo
 
-- [ ] More options to create-table
+- [x] More options to create-table
 - [x] Move the prune into a separate spin-off process
   - [ ] And make sure there's only one at a time?
 - [ ] Documentation
