@@ -18,6 +18,7 @@ release is published.
   - [ ] Getting-started guide
     - [ ] How to set up Mnesia
 - [ ] Publish v0.1
+- [ ] Test with load-test app
 
 
 ## Installation
