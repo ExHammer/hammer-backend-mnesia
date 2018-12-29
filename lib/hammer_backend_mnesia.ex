@@ -18,22 +18,27 @@ defmodule Hammer.Backend.Mnesia do
   ## Public API
 
   def create_mnesia_table do
-    create_mnesia_table(@default_table_name)
+    create_mnesia_table(@default_table_name, [])
   end
 
-  def create_mnesia_table(table_name) do
-    # TODO: add ram_copies, etc,
-    #   http://erlang.org/doc/man/mnesia.html
-    create_result =
-      Mnesia.create_table(
-        table_name,
-        type: :set,
-        attributes: [:key, :bucket, :id, :count, :created, :updated]
-      )
+  def create_mnesia_table(table_name) when is_atom(table_name) do
+    create_mnesia_table(table_name, [])
+  end
 
-    Mnesia.add_table_index(table_name, :id)
-    Mnesia.add_table_index(table_name, :updated)
-    create_result
+  def create_mnesia_table(opts) when is_list(opts) do
+    create_mnesia_table(@default_table_name, opts)
+  end
+
+  def create_mnesia_table(table_name, opts) do
+    opts =
+      opts
+      |> Keyword.put(:access_mode, :read_write)
+      |> Keyword.put(:attributes, [:key, :bucket, :id, :count, :created, :updated])
+      |> Keyword.put(:index, [:id, :updated])
+      |> Keyword.put(:type, :set)
+      |> Keyword.put(:record_name, table_name)
+
+    Mnesia.create_table(table_name, opts)
   end
 
   def start do
