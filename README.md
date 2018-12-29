@@ -1,9 +1,10 @@
 # Hammer.Backend.Mnesia
 
-An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter.
+An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer)
+rate-limiter.
 
-This package is under development and should not be used until an official release
-is published.
+This package is under development and should not be used until an official
+release is published.
 
 
 ## Todo
@@ -32,9 +33,10 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/hammer_backend_mnesia](https://hexdocs.pm/hammer_backend_mnesia).
+Documentation can be generated with
+[ExDoc](https://github.com/elixir-lang/ex_doc) and published on
+[HexDocs](https://hexdocs.pm). Once published, the docs can be found at
+[https://hexdocs.pm/hammer_backend_mnesia](https://hexdocs.pm/hammer_backend_mnesia).
 
 
 
@@ -55,9 +57,11 @@ See the [Hammer Tutorial](https://hexdocs.pm/hammer/tutorial.html) for more.
 
 ## Documentation
 
-On hexdocs: [https://hexdocs.pm/hammer_backend_mnesia/](https://hexdocs.pm/hammer_backend_mnesia/)
+On hexdocs:
+[https://hexdocs.pm/hammer_backend_mnesia/](https://hexdocs.pm/hammer_backend_mnesia/)
 
 
 ## Getting Help
 
-If you're having trouble, either open an issue on this repo, or reach out to the maintainers ([@shanekilkelly](https://twitter.com/shanekilkelly)) on Twitter.
+If you're having trouble, either open an issue on this repo, or reach out to the
+maintainers ([@shanekilkelly](https://twitter.com/shanekilkelly)) on Twitter.
