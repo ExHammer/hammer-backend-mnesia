@@ -9,13 +9,14 @@ is published.
 ## Todo
 
 - [ ] More options to create-table
-- [ ] Move the prune into a separate spin-off process
+- [x] Move the prune into a separate spin-off process
   - [ ] And make sure there's only one at a time?
 - [ ] Documentation
   - [ ] Module docs
   - [ ] Generate docs
   - [ ] Getting-started guide
     - [ ] How to set up Mnesia
+- [ ] Publish v0.1
 
 
 ## Installation
