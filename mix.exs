@@ -32,8 +32,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
   defp deps do
     [
       {:hammer, "6.0.0"},
-      {:ex_doc, "~> 0.16", only: :dev},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
+      {:ex_doc, "0.18.4", only: :dev}
     ]
   end
 end

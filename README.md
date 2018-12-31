@@ -23,25 +23,28 @@ release is published.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `hammer_backend_mnesia` to your list of dependencies in `mix.exs`:
+Hammer-backend-mnesia
+is [available in Hex](https://hex.pm/packages/hammer_backend_mnesia), the package
+can be installed by adding `hammer_backend_mnesia` to your list of dependencies in `mix.exs`:
+
 
 ```elixir
 def deps do
-  [
-    {:hammer_backend_mnesia, "~> 0.1.0"}
-  ]
+  [{:hammer_backend_mnesia, "~> 0.5"},
+   {:hammer, "~> 6.0"}]
 end
 ```
 
-Documentation can be generated with
-[ExDoc](https://github.com/elixir-lang/ex_doc) and published on
-[HexDocs](https://hexdocs.pm). Once published, the docs can be found at
-[https://hexdocs.pm/hammer_backend_mnesia](https://hexdocs.pm/hammer_backend_mnesia).
-
-
 
 ## Usage
+
+First, set up an Mnesia schema, see this guide:  https://elixirschool.com/en/lessons/specifics/mnesia/
+
+Then, create the Mnesia table for Hammer to use:
+
+```elixir
+Hammer.Backend.Mnesia.create_mnesia_table()
+```
 
 Configure the `:hammer` application to use the Mnesia backend:
 
@@ -55,6 +58,8 @@ And that's it, calls to `Hammer.check_rate/3` and so on will use Mnesia to store
 the rate-limit counters.
 
 See the [Hammer Tutorial](https://hexdocs.pm/hammer/tutorial.html) for more.
+
+
 
 ## Documentation
 
