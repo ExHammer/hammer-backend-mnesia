@@ -13,7 +13,7 @@ release is published.
 - [x] Move the prune into a separate spin-off process
   - [ ] And make sure there's only one at a time?
 - [ ] Documentation
-  - [ ] Module docs
+  - [x] Module docs
   - [ ] Generate docs
   - [ ] Getting-started guide
     - [ ] How to set up Mnesia

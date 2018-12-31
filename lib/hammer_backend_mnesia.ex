@@ -1,6 +1,29 @@
 defmodule Hammer.Backend.Mnesia do
   @moduledoc """
-  Documentation for Hammer.Backend.Redis
+  An Mnesia backend for Hammer
+
+  The public API of this module is used by Hammer to store information about
+  rate-limit 'buckets'. A bucket is identified by a `key`, which is a tuple
+  `{bucket_number, id}`. The essential schema of a bucket is:
+  `{key, count, created_at, updated_at}`, although backends are free to
+  store and retrieve this data in whichever way they wish.
+
+  Use `start` or `start_link` to start the server:
+
+      {:ok, pid} = Hammer.Backend.Mnesia.start_link(args)
+
+  `args` is a keyword list:
+  - `expiry_ms`: (integer) time in ms before a bucket is auto-deleted,
+    should be larger than the expected largest size/duration of a bucket
+  - `cleanup_interval_ms`: (integer) time between cleanup runs,
+  - `table_name`: (atom) table name to use, defaults to `:__hammer_backend_mnesia`,
+
+  Example:
+
+      Hammer.Backend.Mnesia.start_link(
+        expiry_ms: 1000 * 60 * 60,
+        cleanup_interval_ms: 1000 * 60 * 10
+      )
   """
 
   @type bucket_key :: {bucket :: integer, id :: String.t()}
@@ -29,6 +52,15 @@ defmodule Hammer.Backend.Mnesia do
     create_mnesia_table(@default_table_name, opts)
   end
 
+  @doc """
+  Create the mnesia table.
+
+  - `table_name`: atom name of table, defaults to :__hammer_backend_mnesia
+  - `opt`: keyword list of options to `:mnesia.create_table/2`,
+  all options are suppoted except
+  `:access_mode`, `:attributes`, `:index`, `:type`, and `:record_name`,
+  which are not configurable.
+  """
   def create_mnesia_table(table_name, opts) do
     opts =
       opts

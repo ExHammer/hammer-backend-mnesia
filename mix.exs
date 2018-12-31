@@ -4,9 +4,19 @@ defmodule Hammer.Backend.Mnesia.MixProject do
   def project do
     [
       app: :hammer_backend_mnesia,
-      version: "0.1.0",
+      version: "0.5.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      description: "Mnesia backend for Hammer rate-limiter",
+      package: [
+        name: :hammer_backend_mnesia,
+        maintainers: ["Shane Kilkelly (shane@kilkelly.me)"],
+        licenses: ["MIT"],
+        links: %{"GitHub" => "https://github.com/ExHammer/hammer-backend-mnesia"}
+      ],
+      source_url: "https://github.com/ExHammer/hammer-backend-mnesia",
+      homepage_url: "https://github.com/ExHammer/hammer-backend-mnesia",
+      docs: [main: "frontpage", extras: ["doc_src/Frontpage.md"]],
       deps: deps()
     ]
   end
