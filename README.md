@@ -14,10 +14,10 @@ release is published.
   - [ ] And make sure there's only one at a time?
 - [ ] Documentation
   - [x] Module docs
-  - [ ] Generate docs
+  - [x] Generate docs
   - [ ] Getting-started guide
     - [ ] How to set up Mnesia
-- [ ] Publish v0.1
+- [ ] Publish v0.5 (initial release)
 - [ ] Test with load-test app
 
 
