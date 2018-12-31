@@ -17,8 +17,8 @@ release is published.
   - [x] Generate docs
   - [ ] Getting-started guide
     - [ ] How to set up Mnesia
-- [ ] Publish v0.5 (initial release)
-- [ ] Test with load-test app
+- [x] Publish v0.5 (initial release)
+- [x] Test with load-test app
 
 
 ## Installation
