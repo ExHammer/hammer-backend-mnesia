@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/ExHammer/hammer-backend-mnesia.svg?branch=master)](https://travis-ci.org/ExHammer/hammer-backend-mnesia)
 
-[![Coverage Status](https://coveralls.io/repos/github/ExHammer/hammer-backend-mnesia/badge.svg?branch=master)](https://coveralls.io/github/ExHammer/hammer-backend-mnesia?branch=master)
-
 An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer)
 rate-limiter.
 
