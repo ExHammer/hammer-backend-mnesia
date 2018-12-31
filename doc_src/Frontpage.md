@@ -25,3 +25,9 @@ config :hammer,
   backend: {Hammer.Backend.Mnesia, [expiry_ms: 60_000 * 60 * 2,
                                     cleanup_interval_ms: 60_000 * 15]}
 ```
+
+And create the Mnesia table for Hammer to use:
+
+```elixir
+Hammer.Backend.Mnesia.create_mnesia_table()
+```
