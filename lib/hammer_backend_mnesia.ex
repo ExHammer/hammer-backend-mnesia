@@ -37,6 +37,9 @@ defmodule Hammer.Backend.Mnesia do
   alias Hammer.Utils
 
   @default_table_name :__hammer_backend_mnesia
+  @table_attributes [:key, :bucket, :id, :count, :created, :updated]
+  @table_indices [:id, :updated]
+  @table_type :set
 
   ## Public API
 
@@ -65,9 +68,9 @@ defmodule Hammer.Backend.Mnesia do
     opts =
       opts
       |> Keyword.put(:access_mode, :read_write)
-      |> Keyword.put(:attributes, [:key, :bucket, :id, :count, :created, :updated])
-      |> Keyword.put(:index, [:id, :updated])
-      |> Keyword.put(:type, :set)
+      |> Keyword.put(:attributes, @table_attributes)
+      |> Keyword.put(:index, @table_indices)
+      |> Keyword.put(:type, @table_type)
       |> Keyword.put(:record_name, table_name)
 
     Mnesia.create_table(table_name, opts)
