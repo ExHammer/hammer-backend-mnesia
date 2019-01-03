@@ -5,22 +5,7 @@
 An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer)
 rate-limiter.
 
-This package is under development and should not be used until an official
-release is published.
-
-
-## Todo
-
-- [x] More options to create-table
-- [x] Move the prune into a separate spin-off process
-  - [ ] And make sure there's only one at a time?
-- [ ] Documentation
-  - [x] Module docs
-  - [x] Generate docs
-  - [ ] Getting-started guide
-    - [ ] How to set up Mnesia
-- [x] Publish v0.5 (initial release)
-- [x] Test with load-test app
+This package is available in beta. If you have any problems, please open an issue.
 
 
 ## Installation
