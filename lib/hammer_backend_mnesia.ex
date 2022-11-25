@@ -26,15 +26,16 @@ defmodule Hammer.Backend.Mnesia do
       )
   """
 
-  @type bucket_key :: {bucket :: integer, id :: String.t()}
-  @type bucket_info ::
-          {key :: bucket_key, count :: integer, created :: integer, updated :: integer}
+  @behaviour Hammer.Backend
 
   use GenServer
-  @behaviour Hammer.Backend
 
   alias :mnesia, as: Mnesia
   alias Hammer.Utils
+
+  @type bucket_key :: {bucket :: integer, id :: String.t()}
+  @type bucket_info ::
+          {key :: bucket_key, count :: integer, created :: integer, updated :: integer}
 
   @default_table_name :__hammer_backend_mnesia
   @table_attributes [:key, :bucket, :id, :count, :created, :updated]
