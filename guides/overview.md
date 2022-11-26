@@ -13,8 +13,8 @@ the `hammer_backend_mnesia` dependency:
 
 ```elixir
     def deps do
-      [{:hammer_backend_mnesia, "~> 0.5"},
-      {:hammer, "~> 6.0"}]
+      [{:hammer_backend_mnesia, "~> 0.6"},
+      {:hammer, "~> 6.1"}]
     end
 ```
 
