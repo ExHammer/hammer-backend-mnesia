@@ -51,7 +51,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test]},
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
       {:ex_doc, "0.18.4", only: :dev},
-      {:hammer, "6.0.0"}
+      {:hammer, "6.1.0"}
     ]
   end
 end
