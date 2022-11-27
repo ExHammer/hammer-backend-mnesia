@@ -1,6 +1,6 @@
 # Hammer.Backend.Mnesia
 
-[![Build Status](https://travis-ci.org/ExHammer/hammer-backend-mnesia.svg?branch=master)](https://travis-ci.org/ExHammer/hammer-backend-mnesia)
+[![Build Status](https://github.com/ExHammer/hammer-backend-mnesia/actions/workflows/ci.yml/badge.svg)](https://github.com/ExHammer/hammer-backend-mnesia/actions/workflows/ci.yml) [![Hex.pm](https://img.shields.io/hexpm/v/hammer_backend_mnesia.svg)](https://hex.pm/packages/hammer_backend_mnesia) [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/hammer_backend_mnesia)
 
 An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer)
 rate-limiter.
