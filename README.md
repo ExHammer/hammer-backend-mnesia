@@ -1,60 +1,56 @@
-# Hammer.Backend.Mnesia
+# Hammer.Mnesia
 
-[![Build Status](https://github.com/ExHammer/hammer-backend-mnesia/actions/workflows/ci.yml/badge.svg)](https://github.com/ExHammer/hammer-backend-mnesia/actions/workflows/ci.yml) [![Hex.pm](https://img.shields.io/hexpm/v/hammer_backend_mnesia.svg)](https://hex.pm/packages/hammer_backend_mnesia) [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/hammer_backend_mnesia)
+[![Build Status](https://github.com/ExHammer/hammer-backend-mnesia/actions/workflows/ci.yml/badge.svg)](https://github.com/ExHammer/hammer-backend-mnesia/actions/workflows/ci.yml)
+[![Hex.pm](https://img.shields.io/hexpm/v/hammer_backend_mnesia.svg)](https://hex.pm/packages/hammer_backend_mnesia)
+[![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/hammer_backend_mnesia)
 [![Total Download](https://img.shields.io/hexpm/dt/hammer_backend_mnesia.svg)](https://hex.pm/packages/hammer_backend_mnesia)
 [![License](https://img.shields.io/hexpm/l/hammer_backend_mnesia.svg)](https://github.com/ExHammer/hammer-backend-mnesia/blob/master/LICENSE.md)
 
-An Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer)
-rate-limiter.
+A Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter. By default it uses a single `type: :set` in-memory Mnesia table that is not distributed. See Mnesia documentation for [`create_table/2`](https://www.erlang.org/doc/apps/mnesia/mnesia.html#create_table/2) for more information.
 
 This package is available in beta. If you have any problems, please open an issue.
 
+> [!TIP]
+> Consider using ETS tables with counter increments broadcasted over Phoenix.PubSub instead. That approach is both more performant and less error prone.
 
 ## Installation
 
-Hammer-backend-mnesia
-is [available in Hex](https://hex.pm/packages/hammer_backend_mnesia), the package
-can be installed by adding `hammer_backend_mnesia` to your list of dependencies in `mix.exs`:
-
+The package can be installed by adding `hammer_backend_mnesia` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:hammer_backend_mnesia, "~> 0.6"},
-   {:hammer, "~> 6.1"}]
+  [
+    {:hammer_backend_mnesia, "~> 0.7.0"},
+  ]
 end
 ```
 
-
 ## Usage
 
-First, set up an Mnesia schema, see this guide:  https://elixirschool.com/en/lessons/specifics/mnesia/
+1. Define the rate limiter using `Hammer.Mnesia` backend:
 
-Then, create the Mnesia table for Hammer to use:
+    ```elixir
+    defmodule MyApp.RateLimit do
+      use Hammer, backend: Hammer.Mnesia
+    end
+    ```
 
-```elixir
-Hammer.Backend.Mnesia.create_mnesia_table()
-```
+2. Add the rate limiter to your supervision tree:
 
-Configure the `:hammer` application to use the Mnesia backend:
+    ```elixir
+    children = [
+      # you can add `ram_copies: Node.list()` to make the table distributed, but that requires extra configuration
+      {MyApp.RateLimit, clean_period: :timer.minutes(1)}
+    ]
+    ```
 
-```elixir
-config :hammer,
-  backend: {Hammer.Backend.Mnesia, [expiry_ms: 60_000 * 60 * 2,
-                                    cleanup_interval_ms: 60_000 * 10]}
-```
+    Note that this process will fail to start if `:mnesia.create_table/2` call fails. Depending on your supervision strategy that can take down the whole application. So be careful with the extra options you provide.
 
-And that's it, calls to `Hammer.check_rate/3` and so on will use Mnesia to store
-the rate-limit counters.
-
-See the [Hammer Tutorial](https://hexdocs.pm/hammer/tutorial.html) for more.
-
-
+3. And that's it, calls to `MyApp.RateLimit.hit/3` and so on will use Mnesia to store the rate-limit counters.
 
 ## Documentation
 
-On hexdocs:
-[https://hexdocs.pm/hammer_backend_mnesia/](https://hexdocs.pm/hammer_backend_mnesia/)
-
+On hexdocs: [https://hexdocs.pm/hammer_backend_mnesia/](https://hexdocs.pm/hammer_backend_mnesia/)
 
 ## Getting Help
 

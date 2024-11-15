@@ -1,3 +1,6 @@
+## 0.7.0 - Unreleased
+
+- adapt to the new Hammer API
 
 ## 0.6.1 - 2024-03-29
 
