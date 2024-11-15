@@ -45,7 +45,14 @@ end
     ]
     ```
 
-3. And that's it, calls to `MyApp.RateLimit.hit/3` and so on will use Mnesia to store the rate-limit counters.
+3. And that's it, calls to the rate limiter will use Mnesia to store the counters.
+
+    ```elixir
+    case MyApp.RateLimit.hit(key, _scale = :timer.minutes(1), _limit = 100) do
+      {:allow, _count} -> :ok
+      {:deny, retry_after} -> {:error, :rate_limit, "retry after #{retry_after}ms"}
+    end
+    ```
 
 ## Documentation
 
