@@ -12,8 +12,6 @@ This package is available in beta. If you have any problems, please open an issu
 
 > [!TIP]
 > Consider using ETS tables with counter increments broadcasted over `Phoenix.PubSub` instead.
-> 
-> That approach is both more performant and less error prone.
 
 ## Installation
 
