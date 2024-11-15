@@ -6,8 +6,8 @@ defmodule Hammer.Backend.Mnesia.MixProject do
   def project do
     [
       app: :hammer_backend_mnesia,
-      version: "#{@version}",
-      elixir: "~> 1.12",
+      version: @version,
+      elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       description: "Mnesia backend for Hammer rate-limiter",
       source_url: "https://github.com/ExHammer/hammer-backend-mnesia",
@@ -15,7 +15,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
       docs: docs(),
       deps: deps(),
       package: package(),
-      test_coverage: [summary: [threshold: 75]]
+      test_coverage: [summary: [threshold: 90]]
     ]
   end
 
@@ -28,11 +28,9 @@ defmodule Hammer.Backend.Mnesia.MixProject do
 
   def docs do
     [
-      main: "overview",
-      extras: ["guides/Overview.md", "CHANGELOG.md"],
-      source_ref: "v#{@version}",
-      main: "overview",
-      formatters: ["html", "epub"]
+      main: "readme",
+      extras: ["README.md", "CHANGELOG.md"],
+      source_ref: "v#{@version}"
     ]
   end
 
