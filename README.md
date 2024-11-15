@@ -6,12 +6,16 @@
 [![Total Download](https://img.shields.io/hexpm/dt/hammer_backend_mnesia.svg)](https://hex.pm/packages/hammer_backend_mnesia)
 [![License](https://img.shields.io/hexpm/l/hammer_backend_mnesia.svg)](https://github.com/ExHammer/hammer-backend-mnesia/blob/master/LICENSE.md)
 
-A Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter. By default it uses a single `type: :set` in-memory Mnesia table that is not distributed. See Mnesia documentation for [`create_table/2`](https://www.erlang.org/doc/apps/mnesia/mnesia.html#create_table/2) for more information.
+A Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter.
+
+By default it uses a single `type: :set` in-memory Mnesia table that is not distributed. See Mnesia documentation for [`create_table/2`](https://www.erlang.org/doc/apps/mnesia/mnesia.html#create_table/2) for more information.
 
 This package is available in beta. If you have any problems, please open an issue.
 
 > [!TIP]
-> Consider using ETS tables with counter increments broadcasted over Phoenix.PubSub instead. That approach is both more performant and less error prone.
+> Consider using ETS tables with counter increments broadcasted over `Phoenix.PubSub` instead.
+> 
+> That approach is both more performant and less error prone.
 
 ## Installation
 
