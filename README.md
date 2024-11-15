@@ -8,8 +8,6 @@
 
 A Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter.
 
-By default it uses a single `type: :set` in-memory Mnesia table that is not distributed. See Mnesia documentation for [`create_table/2`](https://www.erlang.org/doc/apps/mnesia/mnesia.html#create_table/2) for more information.
-
 This package is available in beta. If you have any problems, please open an issue.
 
 > [!TIP]
