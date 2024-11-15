@@ -11,7 +11,7 @@ A Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limit
 This package is available in beta. If you have any problems, please open an issue.
 
 > [!TIP]
-> Consider using `Hammer.ETS` with counter increments broadcasted over `Phoenix.PubSub` instead.
+> Consider using `Hammer.ETS` with counter increments broadcasted via `Phoenix.PubSub` instead.
 
 ## Installation
 
