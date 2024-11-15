@@ -44,7 +44,7 @@ end
     ]
     ```
 
-    Note that this process will start even if `:mnesia.create_table/2` fails. This is similar to Ecto Repos and done so that the rate limiter doesn't take down the whole application. All calls to the the rate limiter will raise an exception until `:mnesia.create_table/2` succeeds.
+    Note that this process will start even if `:mnesia.create_table/2` fails. This way the rate limiter doesn't take down the whole application. All calls to the the rate limiter will raise an exception until `:mnesia.create_table/2` succeeds.
 
 3. And that's it, calls to `MyApp.RateLimit.hit/3` and so on will use Mnesia to store the rate-limit counters.
 
