@@ -1,6 +1,11 @@
 ## 0.7.0 - Unreleased
 
+### Changed
+
 - adapt to the new Hammer API
+- use `:mnesia.dirty_update_counter/3`
+- automatically create an in-memory table (no schema needed)
+- automatically listen cluster changes and replicate the in-memory table
 
 ## 0.6.1 - 2024-03-29
 
