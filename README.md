@@ -39,8 +39,9 @@ end
 
     ```elixir
     children = [
-      # you can add `ram_copies: Node.list()` to make the table distributed, but that requires extra configuration
+      # ...
       {MyApp.RateLimit, clean_period: :timer.minutes(1)}
+      # ...
     ]
     ```
 
