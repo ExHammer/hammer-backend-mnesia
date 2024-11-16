@@ -120,7 +120,12 @@ defmodule Hammer.Mnesia do
   def init(opts) do
     {clean_period, opts} = Keyword.pop!(opts, :clean_period)
     {table, mnesia_opts} = Keyword.pop!(opts, :table)
+    {:continue, {:init, table, clean_period, mnesia_opts}}
+  end
 
+  # TODO
+  @impl true
+  def handle_continue(:init, state) do
     mnesia_opts = Keyword.merge(mnesia_opts, type: :set, attributes: [:key, :count])
 
     case :mnesia.create_table(table, mnesia_opts) do
@@ -128,7 +133,7 @@ defmodule Hammer.Mnesia do
       {:aborted, {:already_exists, _}} -> :ok
       {:aborted, reason} -> :erlang.error(reason)
     end
-
+    
     schedule(clean_period)
     {:ok, %{table: table, clean_period: clean_period}}
   end
