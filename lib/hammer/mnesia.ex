@@ -13,6 +13,7 @@ defmodule Hammer.Mnesia do
       {:allow, _count} = MyApp.RateLimit.hit(key, scale, limit)
 
   """
+  use GenServer
 
   defmacro __before_compile__(%{module: module} = _env) do
     hammer_opts = Module.get_attribute(module, :hammer_opts)
@@ -34,25 +35,27 @@ defmodule Hammer.Mnesia do
         Hammer.Mnesia.start_link(opts)
       end
 
+      @impl Hammer
       def hit(key, scale, limit, increment \\ 1) do
         Hammer.Mnesia.hit(@table, key, scale, limit, increment)
       end
 
+      @impl Hammer
       def inc(key, scale, increment \\ 1) do
         Hammer.Mnesia.inc(@table, key, scale, increment)
       end
 
+      @impl Hammer
       def set(key, scale, count) do
         Hammer.Mnesia.set(@table, key, scale, count)
       end
 
+      @impl Hammer
       def get(key, scale) do
         Hammer.Mnesia.get(@table, key, scale)
       end
     end
   end
-
-  use GenServer
 
   @doc """
   Starts the process that creates and cleans the ETS table.
@@ -68,6 +71,14 @@ defmodule Hammer.Mnesia do
   end
 
   @doc false
+  @spec hit(
+          table :: atom(),
+          key :: term(),
+          scale :: non_neg_integer(),
+          limit :: non_neg_integer(),
+          increment :: non_neg_integer()
+        ) ::
+          {:allow, non_neg_integer()} | {:deny, non_neg_integer()}
   def hit(table, key, scale, limit, increment) do
     now = now()
     full_key = full_key(key, scale, now)
@@ -83,11 +94,23 @@ defmodule Hammer.Mnesia do
   end
 
   @doc false
+  @spec inc(
+          table :: atom(),
+          key :: term(),
+          scale :: non_neg_integer(),
+          increment :: non_neg_integer()
+        ) :: non_neg_integer()
   def inc(table, key, scale, increment) do
     :mnesia.dirty_update_counter(table, full_key(key, scale), increment)
   end
 
   @doc false
+  @spec set(
+          table :: atom(),
+          key :: term(),
+          scale :: non_neg_integer(),
+          count :: non_neg_integer()
+        ) :: non_neg_integer()
   def set(table, key, scale, count) do
     full_key = full_key(key, scale)
     current_count = :mnesia.dirty_update_counter(table, full_key, 0)
@@ -95,6 +118,7 @@ defmodule Hammer.Mnesia do
   end
 
   @doc false
+  @spec get(table :: atom(), key :: term(), scale :: non_neg_integer()) :: non_neg_integer()
   def get(table, key, scale) do
     :mnesia.dirty_update_counter(table, full_key(key, scale), 0)
   end
@@ -124,7 +148,7 @@ defmodule Hammer.Mnesia do
   # TODO retry and log errors
   # TODO listen for cluster changes
   # TODO attempt unsplit
-  @impl true
+  @impl GenServer
   def handle_continue(:init, opts) do
     {clean_period, opts} = Keyword.pop!(opts, :clean_period)
     {table, mnesia_opts} = Keyword.pop!(opts, :table)

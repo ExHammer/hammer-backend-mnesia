@@ -1,4 +1,4 @@
-## 0.7.0 - Unreleased
+## 0.7.0 - 2024-12-06
 
 ### Changed
 
@@ -12,7 +12,7 @@
 
 ### Changed
 
-- loosen dependencies 
+- loosen dependencies
 
 ## 0.6.0 - 2024-11-27
 

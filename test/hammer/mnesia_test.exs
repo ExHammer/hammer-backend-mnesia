@@ -114,20 +114,4 @@ defmodule Hammer.MnesiaTest do
       assert RateLimit.get(key, scale) == count
     end
   end
-
-  describe "reset" do
-    test "resets the count for the given key and scale" do
-      key = "key"
-      scale = :timer.seconds(10)
-      count = 10
-
-      assert RateLimit.get(key, scale) == 0
-
-      assert RateLimit.set(key, scale, count) == count
-      assert RateLimit.get(key, scale) == count
-
-      assert RateLimit.reset(key, scale) == 0
-      assert RateLimit.get(key, scale) == 0
-    end
-  end
 end
