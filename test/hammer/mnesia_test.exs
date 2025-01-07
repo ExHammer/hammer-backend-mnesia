@@ -7,6 +7,10 @@ defmodule Hammer.MnesiaTest do
 
   setup do
     start_supervised!({RateLimit, clean_period: :timer.minutes(60)})
+
+    # because of handle_continue in GenServer, need to wait for the table to be created
+    Process.sleep(100)
+
     on_exit(fn -> :mnesia.delete_table(RateLimit) end)
     :ok
   end

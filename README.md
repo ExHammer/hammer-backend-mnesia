@@ -6,6 +6,15 @@
 [![Total Download](https://img.shields.io/hexpm/dt/hammer_backend_mnesia.svg)](https://hex.pm/packages/hammer_backend_mnesia)
 [![License](https://img.shields.io/hexpm/l/hammer_backend_mnesia.svg)](https://github.com/ExHammer/hammer-backend-mnesia/blob/master/LICENSE.md)
 
+
+---
+
+> [!NOTE]
+>
+> This README is for the unreleased master branch, please reference the [official documentation on hexdocs](https://hexdocs.pm/hammer_backend_mnesia/) for the latest stable release.
+
+---
+
 A Mnesia backend for the [Hammer](https://github.com/ExHammer/hammer) rate-limiter.
 
 This package is available in beta. If you have any problems, please open an issue.

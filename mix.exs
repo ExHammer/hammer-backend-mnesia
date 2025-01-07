@@ -37,10 +37,11 @@ defmodule Hammer.Backend.Mnesia.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:benchee, "~> 1.2", only: :bench},
       {:credo, "~> 1.7", only: [:dev, :test]},
       {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.35", only: :dev},
-      {:hammer, "7.0.0-rc.0"}
+      {:hammer, "7.0.0-rc.3"}
     ]
   end
 
