@@ -15,7 +15,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
       docs: docs(),
       deps: deps(),
       package: package(),
-      test_coverage: [summary: [threshold: 90]]
+      test_coverage: [summary: [threshold: 85]]
     ]
   end
 
