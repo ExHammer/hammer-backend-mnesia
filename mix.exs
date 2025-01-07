@@ -1,13 +1,13 @@
 defmodule Hammer.Backend.Mnesia.MixProject do
   use Mix.Project
 
-  @version "0.6.1"
+  @version "0.7.0-rc.0"
 
   def project do
     [
       app: :hammer_backend_mnesia,
-      version: "#{@version}",
-      elixir: "~> 1.12",
+      version: @version,
+      elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: "Mnesia backend for Hammer rate-limiter",
       source_url: "https://github.com/ExHammer/hammer-backend-mnesia",
@@ -15,7 +15,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
       docs: docs(),
       deps: deps(),
       package: package(),
-      test_coverage: [summary: [threshold: 75]]
+      test_coverage: [summary: [threshold: 85]]
     ]
   end
 
@@ -28,21 +28,20 @@ defmodule Hammer.Backend.Mnesia.MixProject do
 
   def docs do
     [
-      main: "overview",
-      extras: ["guides/Overview.md", "CHANGELOG.md"],
-      source_ref: "v#{@version}",
-      main: "overview",
-      formatters: ["html", "epub"]
+      main: "readme",
+      extras: ["README.md", "CHANGELOG.md"],
+      source_ref: "v#{@version}"
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo, "~> 1.6", only: [:dev, :test]},
-      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
-      {:ex_doc, "~> 0.29", only: :dev},
-      {:hammer, "~> 6.1"}
+      {:benchee, "~> 1.2", only: :bench},
+      {:credo, "~> 1.7", only: [:dev, :test]},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:ex_doc, "~> 0.35", only: :dev},
+      {:hammer, "7.0.0-rc.3"}
     ]
   end
 
