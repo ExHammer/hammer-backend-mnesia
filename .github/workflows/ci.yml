@@ -44,7 +44,7 @@ jobs:
             test-otp-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-ref-${{ github.head_ref || github.ref }}-mix-
             test-otp-${{ matrix.otp }}-elixir-${{ matrix.elixir }}-ref-refs/heads/master-mix-
 
-      - run: mix deps.get --only $MIX_ENV
+      - run: mix deps.get
       - run: mix deps.unlock --check-unused
       - run: mix deps.compile
       - run: mix compile --warnings-as-errors
