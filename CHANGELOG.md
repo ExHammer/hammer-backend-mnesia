@@ -1,4 +1,10 @@
-## 0.7.0-rc.0 - 2024-12-06
+## 0.7.0-rc.1 - 2025-01-09
+
+### Changed
+
+- update to the latest version of Hammer RC4
+
+## 0.7.0-rc.0 - 2025-01-07
 
 ### Changed
 
