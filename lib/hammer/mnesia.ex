@@ -12,7 +12,17 @@ defmodule Hammer.Mnesia do
 
       {:allow, _count} = MyApp.RateLimit.hit(key, scale, limit)
 
+  The Mnesia backend supports the following algorithms:
+    - `:fix_window` - Fixed window rate limiting (default)
+      Simple counting within fixed time windows. See [Hammer.Mnesia.FixWindow](Hammer.Mnesia.FixWindow.html) for more details.
+
+    - `:leaky_bucket` - Leaky bucket rate limiting
+      Smooth rate limiting with a fixed rate of tokens. See [Hammer.Mnesia.LeakyBucket](Hammer.Mnesia.LeakyBucket.html) for more details.
+
+    - `:token_bucket` - Token bucket rate limiting
+      Flexible rate limiting with bursting capability. See [Hammer.Mnesia.TokenBucket](Hammer.Mnesia.TokenBucket.html) for more details.
   """
+
   use GenServer
 
   @type mnesia_option :: {:table, atom()}
