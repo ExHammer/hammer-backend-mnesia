@@ -1,7 +1,7 @@
 defmodule Hammer.Backend.Mnesia.MixProject do
   use Mix.Project
 
-  @version "0.7.0-rc.1"
+  @version "0.7.0"
 
   def project do
     [
@@ -41,7 +41,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test]},
       {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.35", only: :dev},
-      {:hammer, "7.0.0-rc.4"}
+      {:hammer, "~> 7.0"}
     ]
   end
 
