@@ -1,3 +1,9 @@
+## 0.7.1 - 2025-07-23
+
+### Fixed
+
+- Fix typespec to use term() for key parameter in leaky_bucket and token_bucket
+
 ## 0.7.0 - 2025-02-06
 
 - Release candidate for 7.0.0. See [upgrade to v7](https://hexdocs.pm/hammer/upgrade-v7.html) for upgrade instructions.
