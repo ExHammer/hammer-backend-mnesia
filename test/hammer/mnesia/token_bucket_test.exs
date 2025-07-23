@@ -81,4 +81,31 @@ defmodule Hammer.Redis.TokenBucketTest do
       assert RateLimitTokenBucket.get(key) == 3
     end
   end
+
+  describe "non-string keys" do
+    test "works with atom keys" do
+      refill_rate = :timer.seconds(10)
+      capacity = 10
+
+      assert {:allow, 9} = RateLimitTokenBucket.hit(:atom_key, refill_rate, capacity, 1)
+      assert RateLimitTokenBucket.get(:atom_key) == 9
+    end
+
+    test "works with tuple keys" do
+      refill_rate = :timer.seconds(10)
+      capacity = 10
+      tuple_key = {:user, 123}
+
+      assert {:allow, 9} = RateLimitTokenBucket.hit(tuple_key, refill_rate, capacity, 1)
+      assert RateLimitTokenBucket.get(tuple_key) == 9
+    end
+
+    test "works with integer keys" do
+      refill_rate = :timer.seconds(10)
+      capacity = 10
+
+      assert {:allow, 9} = RateLimitTokenBucket.hit(123, refill_rate, capacity, 1)
+      assert RateLimitTokenBucket.get(123) == 9
+    end
+  end
 end

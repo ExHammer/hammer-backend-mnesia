@@ -78,4 +78,31 @@ defmodule Hammer.Mnesia.LeakyBucketTest do
       assert RateLimitLeakyBucket.get(key) == 3
     end
   end
+
+  describe "non-string keys" do
+    test "works with atom keys" do
+      leak_rate = :timer.seconds(10)
+      capacity = 10
+
+      assert {:allow, 1} = RateLimitLeakyBucket.hit(:atom_key, leak_rate, capacity)
+      assert RateLimitLeakyBucket.get(:atom_key) == 1
+    end
+
+    test "works with tuple keys" do
+      leak_rate = :timer.seconds(10)
+      capacity = 10
+      tuple_key = {:user, 123}
+
+      assert {:allow, 1} = RateLimitLeakyBucket.hit(tuple_key, leak_rate, capacity)
+      assert RateLimitLeakyBucket.get(tuple_key) == 1
+    end
+
+    test "works with integer keys" do
+      leak_rate = :timer.seconds(10)
+      capacity = 10
+
+      assert {:allow, 1} = RateLimitLeakyBucket.hit(123, leak_rate, capacity)
+      assert RateLimitLeakyBucket.get(123) == 1
+    end
+  end
 end
