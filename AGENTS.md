@@ -166,6 +166,14 @@ assert [{"key", _, _}] = :mnesia.dirty_all_keys(RateLimit)
 - `RELEASE.md` contains a typo ("hammer-bakend-mnesia") and is terse.
 - CI formatting job uses Elixir 1 / OTP 27, so formatting must be stable across versions.
 
+## Code Search
+
+`sgrep` is a semantic code search tool (ripgrep candidates re-ranked by local embeddings). It may not be installed on every machine: check with `command -v sgrep`; if it is missing, use `rg`/`grep` as usual and do not try to install it.
+
+- Prefer `sgrep "natural-language question" lib/` when you are looking for a concept or behaviour and do not know the exact identifier, when the codebase is unfamiliar, or when `rg` returned too many hits or none because the naming did not match your guess.
+- Keep `rg`/`grep` when you know the exact symbol, string, module name or regex, when you need every occurrence (renames, call-site audits), or when matching structured patterns (config keys, log formats, file paths).
+- Always pass a directory as the second argument (`lib/`, `test/`, `assets/js/`) so `deps/`, `_build/`, `node_modules/` are skipped. The first run on a corpus builds an embedding index (slow); later runs reuse the cache. Use `--refresh-cache` after large refactors if results look stale.
+
 ## Key Files
 
 - `lib/hammer/mnesia.ex` - backend entry point: macro generating the user's API, GenServer lifecycle, table creation, clean scheduling.
