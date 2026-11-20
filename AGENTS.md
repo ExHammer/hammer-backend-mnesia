@@ -8,12 +8,12 @@
 |---|---|
 | App / package | `:hammer_backend_mnesia` v0.7.1 (`@version` in `mix.exs`) |
 | Top module | `Hammer.Mnesia` (project module is `Hammer.Backend.Mnesia.MixProject`) |
-| Elixir (declared) | `~> 1.14` (OTP 25+) |
-| Elixir / OTP (local toolchain) | 1.20.4 / 29.0.6 (`.tool-versions`, `mise.toml`) |
+| Elixir (declared) | `~> 1.17` (OTP 27+ in CI) |
+| Elixir / OTP (local toolchain) | 1.20.5 / 29.1.2 (`.tool-versions`, `mise.toml`) |
 | Hammer | `~> 7.0` (lockfile has 7.5.0) |
 | Storage | `:mnesia` (in `extra_applications`), RAM-only tables, no schema/disc |
 | Dev/test deps | credo ~> 1.7, dialyxir ~> 1.4 (dev only), ex_doc ~> 0.35 (dev only), benchee ~> 1.2 (`:bench` env only) |
-| CI | GitHub Actions: `.github/workflows/ci.yml` (matrix Elixir 1.14/OTP25, 1.17/OTP25,26,27, 1.18/OTP27), `publish.yml` (Hex publish on any pushed tag) |
+| CI | GitHub Actions: `.github/workflows/ci.yml` (matrix Elixir 1.17/OTP27, 1.18/OTP27,28, 1.19/OTP28, 1.20/OTP28,29), `publish.yml` (Hex publish on any pushed tag) |
 | Coverage | `test_coverage: [summary: [threshold: 85]]` |
 
 ## Essential Commands
@@ -119,7 +119,7 @@ assert [{"key", _, _}] = :mnesia.dirty_all_keys(RateLimit)
 
 ## Elixir / Mnesia Guidelines
 
-- Supported floor is Elixir 1.14 / OTP 25; do not use newer-only stdlib APIs (check the CI matrix). Local toolchain is 1.20/OTP 29, so a compile locally does not prove 1.14 compatibility.
+- Supported floor is Elixir 1.17 / OTP 27; do not use newer-only stdlib APIs (check the CI matrix). Local toolchain is 1.20/OTP 29, so a compile locally does not prove 1.17 compatibility.
 - Prefer pattern matching and `with`; no nested `case`; tagged tuples for results; no `String.to_atom` on caller input.
 - Rate-limit keys are arbitrary terms and are stored directly in Mnesia; never convert them.
 - Mnesia specifics:
@@ -164,7 +164,7 @@ assert [{"key", _, _}] = :mnesia.dirty_all_keys(RateLimit)
 - Time units differ between FixWindow (ms) and the bucket algorithms (seconds); `key_older_than` is in ms and converted with `round(x / 1000)` for buckets.
 - README install snippet says `~> 0.7.0` while `mix.exs` is 0.7.1 (compatible, but keep in step on release).
 - `RELEASE.md` contains a typo ("hammer-bakend-mnesia") and is terse.
-- CI formatting job uses Elixir 1 / OTP 27, so formatting must be stable across versions.
+- CI formatting job uses Elixir 1.20 / OTP 29, so formatting must be stable across versions.
 
 ## Code Search
 

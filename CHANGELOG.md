@@ -1,3 +1,9 @@
+## Unreleased
+
+### Changed
+
+- Require Elixir 1.17+ (was 1.14+); CI now tests Elixir 1.17-1.20 on OTP 27-29 and no longer tests OTP 25/26.
+
 ## 0.7.1 - 2025-07-23
 
 ### Fixed
