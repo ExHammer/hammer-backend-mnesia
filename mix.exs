@@ -7,7 +7,7 @@ defmodule Hammer.Backend.Mnesia.MixProject do
     [
       app: :hammer_backend_mnesia,
       version: @version,
-      elixir: "~> 1.14",
+      elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       description: "Mnesia backend for Hammer rate-limiter",
       source_url: "https://github.com/ExHammer/hammer-backend-mnesia",
